@@ -15,10 +15,10 @@ resource "aws_secretsmanager_secret" "identity_default" {
 resource "aws_secretsmanager_secret_version" "identity_default" {
   secret_id = aws_secretsmanager_secret.identity_default.id
   secret_string = jsonencode({
-    Host     = "<host-do-mysql>"
-    Database = "<nome-do-banco>"
-    User     = "<usuario>"
-    Password = "<senha>"
+    Host     = "localhost"
+    Database = "devdb"
+    User     = "devuser"
+    Password = "devpassword"
     Port     = 3306
   })
 }
@@ -36,6 +36,6 @@ resource "aws_secretsmanager_secret" "identity_default_jwt" {
 resource "aws_secretsmanager_secret_version" "identity_default_jwt" {
   secret_id = aws_secretsmanager_secret.identity_default_jwt.id
   secret_string = jsonencode({
-    SigningKey = "<chave-aleatoria-com-pelo-menos-32-bytes>"
+    SigningKey = "GkgewBCoe2wpyn+uDo06gEpBqBGvw80OQyGRPwB5ZUU="
   })
 }
