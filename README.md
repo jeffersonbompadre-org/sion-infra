@@ -9,8 +9,9 @@ terraform/
   main.tf         - Definição dos recursos (Secrets Manager)
   providers.tf    - Configuração do provider AWS (aponta para LocalStack)
   versions.tf     - Versões do Terraform e providers
-.github/workflows/
-  ci-cd.yml       - Workflow de CI/CD para deploy no LocalStack
+scripts/
+  deploy.sh       - Script de deploy local
+  destroy.sh      - Script de destruição de recursos
 ```
 
 ## Pré-requisitos
@@ -23,27 +24,43 @@ Antes de usar este repo, certifique-se de que:
    docker-compose up -d
    ```
 
-2. **GitHub Runner está configurado**:
-   ```bash
-   cd docker/sion-github-runner
-   cp .env.example .env
-   # Edite .env com GITHUB_TOKEN e GITHUB_OWNER
-   docker-compose up -d
-   ```
+2. **Terraform está instalado**:
+   - Download: https://developer.hashicorp.com/terraform/downloads
+   - Verificar instalação: `terraform --version`
 
-## Deploy
+## Deploy Local
 
-O deploy é automático via GitHub Actions quando há push no branch `main`. Você também pode executar manualmente via `workflow_dispatch` na interface do GitHub.
+Para fazer o deploy dos recursos no LocalStack:
 
-## Testes Locais
+```bash
+# Na raiz do repo sion-infra
+./scripts/deploy.sh
+```
 
-Para testar localmente sem o GitHub Actions:
+O script irá:
+1. Navegar para o diretório terraform
+2. Executar `terraform init`
+3. Executar `terraform plan`
+4. Executar `terraform apply` com auto-approve
+
+## Destroy
+
+Para remover todos os recursos criados:
+
+```bash
+./scripts/destroy.sh
+```
+
+## Testes Manuais
+
+Para executar comandos manualmente:
 
 ```bash
 cd terraform
 terraform init
 terraform plan
 terraform apply
+terraform destroy
 ```
 
 ## Recursos Gerenciados
@@ -67,3 +84,4 @@ Conforme necessário, este repo pode ser expandido para incluir:
 - ECR repositories
 - IAM base roles
 - Outros recursos compartilhados
+- CI/CD automatizado (GitHub Actions, GitLab CI, etc)
